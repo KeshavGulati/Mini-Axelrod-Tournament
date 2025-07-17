@@ -1,6 +1,6 @@
-# Simulating a Tournament for Different Strategies in an Iterated Prisoner's Dilemma
+## Simulating a Tournament for Different Strategies in an Iterated Prisoner's Dilemma
 
-## Tit For Tat
+### Tit For Tat
 ```{r}
 #' @param player_1_history All moves that player 1 has made so far
 #' @param player_2_history All moves that player 2 has made so far
@@ -38,7 +38,7 @@ tit_for_tat <- function(player_1_history, player_2_history, player) {
 }
 ```
 
-## Grim Trigger
+### Grim Trigger
 ```{r}
 #' @param player_1_history All moves that player 1 has made so far
 #' @param player_2_history All moves that player 2 has made so far
@@ -88,7 +88,7 @@ grim_trigger <- function(player_1_history, player_2_history, player) {
 }
 ```
 
-## Always Defect
+### Always Defect
 ```{r}
 #' @param player_1_history All moves that player 1 has made so far
 #' @param player_2_history All moves that player 2 has made so far
@@ -108,7 +108,7 @@ always_defect <- function(player_1_history, player_2_history, player) {
 }
 ```
 
-## Always Cooperate
+### Always Cooperate
 ```{r}
 #' @param player_1_history All moves that player 1 has made so far
 #' @param player_2_history All moves that player 2 has made so far
@@ -128,7 +128,7 @@ always_cooperate <- function(player_1_history, player_2_history, player) {
 }
 ```
 
-## Random Strategy
+### Random Strategy
 ```{r}
 #' @param player_1_history All moves that player 1 has made so far
 #' @param player_2_history All moves that player 2 has made so far
@@ -148,7 +148,7 @@ random_strategy <- function(player_1_history, player_2_history, player) {
 }
 ```
 
-## Evaluation
+### Evaluation
 ```{r}
 evaluate <- function(v1, v2) {
   # Initialize scores
@@ -159,6 +159,13 @@ evaluate <- function(v1, v2) {
   # Initialize scores array
   score_1_arr[1] <- score1
   score_2_arr[1] <- score2
+
+  # Noise probability
+  noise_prob <- 0.05
+
+  # Apply noise to v1 and v2
+  v1 <- ifelse(runif(length(v1)) < noise_prob, 1 - v1, v1)
+  v2 <- ifelse(runif(length(v2)) < noise_prob, 1 - v2, v2)
   
   # Iterate through the moves
   for (i in seq_along(v1)) {
@@ -221,7 +228,7 @@ evaluate_and_plot <- function(player_1_moves, player_2_moves, player1, player2) 
   text(x = 50, y = max(player_1_score_arr, player_2_score_arr) - 2,
        labels = paste(player1, " Score:", player_1_score), col = "black", cex = 1.5)
   
-  text(x = 50, y = max(player_1_score_arr, player_2_score_arr) - 20,
+  text(x = 50, y = max(player_1_score_arr, player_2_score_arr) - 40,
        labels = paste(player2, " Score:", player_2_score), col = "black", cex = 1.5)
 
   return(list(strat_1_score = player_1_score, 
@@ -235,7 +242,7 @@ evaluate_and_plot <- function(player_1_moves, player_2_moves, player1, player2) 
 }
 ```
 
-## The Tournament
+### The Tournament
 ```{r}
 library(ggplot2)
 tft_final_score <- 0
@@ -251,15 +258,15 @@ rs_final_score <- 0
 play <- function(strat1_func, strat2_func, strat1_name, strat2_name, strat1_final_score, strat2_final_score) {
   results <- list()
 
-  # Four rounds
-  for (i in 1:4) {
+  # Eight rounds
+  for (i in 1:8) {
     strat1_moves <- strat2_moves <- c()
 
-    # First round titfortat goes first, then alternate
-    if (i == 1 || i == 3) {
+    # First round strat1 goes first, then alternate
+    if (i %% 2 != 0) {
       # 100 iterations
       for (j in 1:100) {
-        # Player 1 = tft, Player 2 = gt
+        # Player 1 = strat1, Player 2 = strat2
         strat1_moves <- strat1_func(strat1_moves, strat2_moves, "player1")
         strat2_moves <- strat2_func(strat1_moves, strat2_moves, "player2")
 
@@ -268,7 +275,7 @@ play <- function(strat1_func, strat2_func, strat1_name, strat2_name, strat1_fina
     } else {
       # 100 iterations
       for (j in 1:100) {
-        # Player 1 = gt, Player 2 = tft
+        # Player 1 = strat2, Player 2 = strat1
         strat2_moves <- strat2_func(strat2_moves, strat1_moves, "player1")
         strat1_moves <- strat1_func(strat2_moves, strat1_moves, "player2")
 
@@ -285,9 +292,9 @@ play <- function(strat1_func, strat2_func, strat1_name, strat2_name, strat1_fina
 
   plot_path <- paste("./plots/", strat1_name, " vs ", strat2_name, ".png", sep="")
   png(plot_path, width = 1200, height = 600)
-  par(mfrow = c(1, 4))
+  par(mfrow = c(2, 4))
 
-  for (i in 1:4) {
+  for (i in 1:8) {
     temp <- evaluate_and_plot(
               results[[i]]$strat1_moves, 
               results[[i]]$strat2_moves,
@@ -354,7 +361,7 @@ rs_final_score <- temp[2]
 ![A graph showing two lines plots for titfortat score and grim trigger score against iterations](./plots/Tit for Tat vs Random.png)
 
 
-## Grim Trigger
+### Grim Trigger
 
 ```{r}
 
@@ -429,7 +436,7 @@ rs_final_score <- temp[2]
 **Results**
 ![A graph showing two lines plots for always defect score and random score against iterations](./plots/Always Defect vs Random.png)
 
-## Comparison
+### Comparison
 
 ```{r}
 
