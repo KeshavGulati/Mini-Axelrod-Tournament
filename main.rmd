@@ -483,8 +483,8 @@ player_1_moves <- player_2_moves <- c()
 
 # We assume player 1 plays tit for tat and player 2 plays grim trigger
 for (i in 1:100) {
-  player_1_moves <- grim_trigger(player_1_moves, player_2_moves, "player1")
-  player_2_moves <- always_cooperate(player_1_moves, player_2_moves, "player2")
+  player_1_moves <- always_defect(player_1_moves, player_2_moves, "player1")
+  player_2_moves <- random_strategy(player_1_moves, player_2_moves, "player2")
 
 }
 
