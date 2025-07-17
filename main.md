@@ -1,9 +1,6 @@
-# Mini-Axelrod-Tournament
-A humble replication of Axelrod's tournament involving different strategies for an iterated Prisoner's Dilemma
+# Simulating a Tournament for Different Strategies in an Iterated Prisoner’s Dilemma
 
-## Simulating a Tournament for Different Strategies in an Iterated Prisoner’s Dilemma
-
-### Tit For Tat
+## Tit For Tat
 
     #' @param player_1_history All moves that player 1 has made so far
     #' @param player_2_history All moves that player 2 has made so far
@@ -40,7 +37,7 @@ A humble replication of Axelrod's tournament involving different strategies for 
 
     }
 
-### Grim Trigger
+## Grim Trigger
 
     #' @param player_1_history All moves that player 1 has made so far
     #' @param player_2_history All moves that player 2 has made so far
@@ -89,7 +86,7 @@ A humble replication of Axelrod's tournament involving different strategies for 
 
     }
 
-### Always Defect
+## Always Defect
 
     #' @param player_1_history All moves that player 1 has made so far
     #' @param player_2_history All moves that player 2 has made so far
@@ -108,7 +105,7 @@ A humble replication of Axelrod's tournament involving different strategies for 
 
     }
 
-### Always Cooperate
+## Always Cooperate
 
     #' @param player_1_history All moves that player 1 has made so far
     #' @param player_2_history All moves that player 2 has made so far
@@ -127,7 +124,7 @@ A humble replication of Axelrod's tournament involving different strategies for 
 
     }
 
-### Random Strategy
+## Random Strategy
 
     #' @param player_1_history All moves that player 1 has made so far
     #' @param player_2_history All moves that player 2 has made so far
@@ -146,7 +143,7 @@ A humble replication of Axelrod's tournament involving different strategies for 
 
     }
 
-### Evaluation
+## Evaluation
 
     evaluate <- function(v1, v2) {
       # Initialize scores
@@ -228,7 +225,7 @@ A humble replication of Axelrod's tournament involving different strategies for 
       
     }
 
-### The Tournament
+## The Tournament
 
     library(ggplot2)
     tft_final_score <- 0
